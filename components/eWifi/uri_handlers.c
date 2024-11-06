@@ -6,10 +6,24 @@ esp_err_t home_get_handler(httpd_req_t *req) {
     // Verifica autenticación
     if (isAuth(req)) {
         ESP_LOGI(TAG_WIFI, "Serve home");
-        const uint32_t home_len = home_end - home_start;
-        printf(home_start);
+        // const uint32_t home_len = home_end - home_start;
+        char* buffer = calloc(strlen(home_start)+1,sizeof(char));
+        
+        if (buffer == NULL){
+            ESP_LOGE("ERROR","No Memory for calloc");
+            return ESP_FAIL;
+        }
+        strcpy(buffer,home_start);
+         
+        snprintf(buffer, strlen(buffer), buffer,
+            "TEST1", 
+            "TEST2"
+        );
+
         httpd_resp_set_type(req, "text/html");
-        httpd_resp_send(req, home_start, home_len);
+        httpd_resp_send(req, buffer, strlen(buffer));
+        
+        free(buffer);
     } else {
         // Redirige a /login si no está autenticado
         ESP_LOGE(TAG_WIFI, "User not authenticated, redirecting to /login");
