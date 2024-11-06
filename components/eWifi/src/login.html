@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Frecuency Generator</title>
+    <style>
+      /* Estilo general */
+      body {
+          margin: 0;
+          padding: 0;
+          font-family: Arial, sans-serif;
+          background-color: #f0f0f0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          background: linear-gradient(135deg, #d3d3d3 25%, #f0f0f0 75%);
+      }
+
+      /* Contenedor del formulario */
+      .login-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+      }
+
+      /* Formulario estilo tarjeta */
+      .login-form {
+          background-color: white;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          width: 300px;
+      }
+
+      /* Título */
+      .login-form h2 {
+          text-align: center;
+          margin-bottom: 20px;
+          color: #333;
+      }
+
+      /* Grupo de input */
+      .input-group {
+          margin-bottom: 15px;
+      }
+
+      .input-group label {
+          display: block;
+          font-weight: bold;
+          margin-bottom: 5px;
+      }
+
+      .input-group input {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          font-size: 16px;
+          box-sizing: border-box;
+      }
+
+      /* Botón de login */
+      button[type="submit"] {
+          width: 100%;
+          padding: 10px;
+          background-color: #4c4eaf;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+          font-weight: bold;
+      }
+
+      button[type="submit"]:hover {
+          background-color: #7479c1;
+      }
+
+      /* Animación de fondo */
+      body {
+          animation: backgroundMove 10s infinite alternate ease-in-out;
+      }
+
+      @keyframes backgroundMove {
+          from {
+              background-position: 0% 0%;
+          }
+          to {
+              background-position: 100% 100%;
+          }
+      }
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <form action="" method="POST" class="login-form">
+            <div style="text-align: end;">
+                <h6 style="margin: 0;">Frecuency Generator</h6>
+            </div>
+            <h2>Login Page</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>
