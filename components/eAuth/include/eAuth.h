@@ -4,6 +4,7 @@
 #include "string.h"
 #include <time.h>
 #include "eStore.h"
+#include "esp_http_server.h"
 
 #define MAX_USERS 10         // Máximo número de usuarios permitidos
 #define USERNAME_LEN 20      // Longitud máxima para nombres de usuario
@@ -22,10 +23,12 @@ extern User users[MAX_USERS];         // Declaración del array de usuarios
 extern unsigned int count_users;      // Declaración del contador de usuarios
 
 // Inicializa los usuarios
-esp_err_t init_users(void);
+void init_users(void);
 
 // Genera un token de sesión aleatorio
 void generate_session_token(char *token);
+
+bool isAuth(httpd_req_t *req);
 
 // Autentica al usuario
 bool authenticate_user(const char *username, const char *password);

@@ -5,7 +5,9 @@
 #include "esp_wifi.h"
 #include "esp_netif.h"
 #include "esp_log.h"
-#include "lwip/inet.h"
+#include "lwip/err.h"
+#include "lwip/sys.h"
+
 #include "eAuth.h"
 #include "eStore.h"
 
@@ -14,6 +16,7 @@
 #define ESP_WIFI_PASS "ESP32_PASSW"
 #define MAX_STA_CONN 4
 #define BUFF_LEN 100
+#define MAX_URI 10
 
 extern const char *TAG_WIFI;
 extern httpd_handle_t WebServer;
@@ -24,13 +27,7 @@ extern const char home_start[] asm("_binary_home_html_start");
 extern const char home_end[] asm("_binary_home_html_end");
 
 // Prototipos de funciones
-esp_err_t wifi_init_softap(void);
-esp_err_t home_get_handler(httpd_req_t *req);
-esp_err_t restart_post_handler(httpd_req_t *req);
-esp_err_t init_post_handler(httpd_req_t *req);
-esp_err_t login_get_handler(httpd_req_t *req);
-esp_err_t login_post_handler(httpd_req_t *req);
-esp_err_t logout_handler(httpd_req_t *req);
+void wifi_init_softap(void);
 esp_err_t http_404_error_handler(httpd_req_t *req, httpd_err_code_t err);
-esp_err_t start_webserver(void);
+void start_webserver(httpd_uri_t *uri_handlers, size_t uri_size);
 esp_err_t stop_wifi_handle(void);

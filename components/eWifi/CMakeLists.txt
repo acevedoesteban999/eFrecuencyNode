@@ -1,7 +1,7 @@
 idf_component_register(
     SRCS 
         "eWifi.c"
-        "eAuth.c"
+        "uri_handlers.c"
 
     INCLUDE_DIRS 
         "include"
@@ -14,4 +14,5 @@ idf_component_register(
         esp_http_server
         esp_wifi
         eStore
+        eAuth
 )

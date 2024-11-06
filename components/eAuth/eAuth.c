@@ -5,17 +5,21 @@ User users[MAX_USERS];         // Declaración del array de usuarios
 unsigned int count_users=0;
 
 // Inicializa los usuarios con un usuario predeterminado (admin)
-esp_err_t init_users() {
-    esp_err_t ret = init_nvs();
-    
+void init_users() {
+    //init_nvs();
     // Inicializar usuario admin
     strcpy(users[0].username, "admin");
     strcpy(users[0].password, "admin");
     users[0].is_authenticated = false; // Por defecto, no está autenticado
     users[0].session_token[0] = '\0';  // Sin token inicial
     count_users = 1;                   // Solo tenemos un usuario inicial
+}
 
-    return ret;
+bool isAuth(httpd_req_t *req)
+{
+    char session_token[TOKEN_LEN];
+    httpd_req_get_hdr_value_str(req, "Cookie", session_token, TOKEN_LEN);
+    return (strlen(session_token) && get_user_by_session_token(session_token));
 }
 
 void save_user(){

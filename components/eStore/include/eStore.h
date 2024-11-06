@@ -7,7 +7,7 @@
 
 extern const char * TAG_STORE;  // Declaración de la constante externa
 
-esp_err_t init_nvs(void);
+void init_nvs(void);
 void write_bool_in_nvs(const char* name, bool value);
 void write_int8_in_nvs(const char* name, int8_t value);
 void write_uint64_in_nvs(const char* name, uint64_t value);

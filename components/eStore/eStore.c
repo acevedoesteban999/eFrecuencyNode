@@ -3,16 +3,16 @@
 const char * TAG_STORE = "STORE";
 
 // Inicializa el almacenamiento no volátil (NVS)
-esp_err_t init_nvs() {
+void init_nvs() {
     esp_err_t ret = nvs_flash_init();
     
     // Manejo de particiones NVS llenas o versiones nuevas
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
         ESP_LOGW(TAG_STORE,"Reboot Flash");
-        ESP_ERROR_CHECK_WITHOUT_ABORT(nvs_flash_erase());   // Borra la partición NVS
+        ESP_ERROR_CHECK(nvs_flash_erase());   // Borra la partición NVS
         ret = nvs_flash_init();                             // Inicializa nuevamente
     }
-    return ret;
+    ESP_ERROR_CHECK(ret);
 }
 
 // Función auxiliar para abrir el manejador NVS
