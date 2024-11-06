@@ -7,6 +7,7 @@ esp_err_t home_get_handler(httpd_req_t *req) {
     if (isAuth(req)) {
         ESP_LOGI(TAG_WIFI, "Serve home");
         const uint32_t home_len = home_end - home_start;
+        printf(home_start);
         httpd_resp_set_type(req, "text/html");
         httpd_resp_send(req, home_start, home_len);
     } else {
@@ -120,7 +121,8 @@ esp_err_t logout_handler(httpd_req_t *req) {
 void add_uri(httpd_uri_t*uris,httpd_uri_t uri,size_t*count){
     if (*count >= MAX_URI)
         return;
-    uris[*count++] = uri;
+    uris[*count] = uri;
+    *count += 1;
 }
 
 size_t get_uri_handlers(httpd_uri_t*uris){
