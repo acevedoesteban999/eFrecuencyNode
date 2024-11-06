@@ -22,6 +22,9 @@ extern const char *TAG_WIFI;
 extern httpd_handle_t WebServer;
 // Declaraciones de variables HTML
 extern const char login_start[] asm("_binary_login_html_start");
+
+extern const char styles_asm[] asm("_binary_styles_css_start");
+extern const char index_asm[] asm("_binary_index_js_start");
 extern const char login_end[] asm("_binary_login_html_end");
 extern const char home_start[] asm("_binary_home_html_start");
 extern const char home_end[] asm("_binary_home_html_end");

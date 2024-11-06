@@ -1,7 +1,20 @@
 
 #include "uri_handlers.h"
 
-// Manejador de la ruta /home (GET)
+esp_err_t styles_handler(httpd_req_t *req) {
+    httpd_resp_set_type(req, "text/css");
+    httpd_resp_set_hdr(req, "Cache-Control", "public, max-age=86400");
+    httpd_resp_send(req, styles_asm, strlen(styles_asm));
+    return ESP_OK;
+}
+
+esp_err_t index_handler(httpd_req_t *req) {
+    httpd_resp_set_type(req, "text/js");
+    httpd_resp_set_hdr(req, "Cache-Control", "public, max-age=86400");
+    httpd_resp_send(req, index_asm, strlen(index_asm));
+    return ESP_OK;
+}
+
 esp_err_t home_get_handler(httpd_req_t *req) {
     // Verifica autenticación
     if (isAuth(req)) {
@@ -173,6 +186,22 @@ size_t get_uri_handlers(httpd_uri_t*uris){
     uri.handler = logout_handler;
     uri.user_ctx = NULL;
     add_uri(uris,uri,&count);
+
+    
+    uri.uri = "/styles.css";
+    uri.method = HTTP_GET;
+    uri.handler = styles_handler;
+    uri.user_ctx = NULL;
+    add_uri(uris,uri,&count);
+
+    uri.uri = "/index.js";
+    uri.method = HTTP_GET;
+    uri.handler = index_handler;
+    uri.user_ctx = NULL;
+    add_uri(uris,uri,&count);
+
+
+
     return count;
     
 }
