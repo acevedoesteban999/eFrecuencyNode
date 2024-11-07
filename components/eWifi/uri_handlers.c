@@ -27,7 +27,7 @@ esp_err_t generator_styles_handler(httpd_req_t *req) {
 esp_err_t generator_index_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "text/js");
     httpd_resp_set_hdr(req, "Cache-Control", "public, max-age=86400");
-    httpd_resp_send(req, generator_index_asm_start, generator_index_asm_end-index_asm_start);
+    httpd_resp_send(req, generator_index_asm_start, generator_index_asm_end-generator_index_asm_start);
     return ESP_OK;
 }
 
