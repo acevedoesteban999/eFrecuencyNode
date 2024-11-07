@@ -9,10 +9,13 @@ idf_component_register(
     EMBED_FILES 
         "src/home.html" 
         "src/generator.html" 
-        "src/login.html" 
-        "src/styles.css" 
-        "src/index.js" 
+        "src/login.html"
 
+        "src/css/login_styles.css" 
+        "src/css/main_styles.css" 
+        "src/css/generator_styles.css" 
+        
+        "src/js/generator_index.js" 
     REQUIRES  
         esp_http_server
         esp_wifi

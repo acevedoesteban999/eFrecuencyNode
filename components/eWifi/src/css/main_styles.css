@@ -20,74 +20,6 @@ main{
     padding: 0 10px;
 }
 
-.options {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-    padding-bottom: 80px;
-    width: 100%;
-}
-
-.option {
-    padding: 10px 20px;
-    margin: 10px;
-    background-color: #ffffff;
-    border: 2px solid #4c4eaf;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    text-align: center;
-    flex: 1 1 150px;
-    box-sizing: border-box;
-    max-width: 200px;
-    transition: background-color 0.3s;
-}
-
-.option.active {
-    background-color: #4c4eaf;
-    color: #ffffff;
-}
-
-.content {
-    display: none;
-    padding: 20px;
-    background-color: #ffffff;
-    border: 2px solid #4c4eaf;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    box-sizing: border-box;
-}
-
-.content.active {
-    display: block;
-}
-
-input[type="number"] {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #4c4eaf;;
-    border: none;
-    border-radius: 5px;
-    color: #ffffff;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.option:hover, .button:hover {
-    background-color: #7479c1; 
-    color: #ffffff; 
-}
 .head-text{
     text-align: center ;
     font-size: xx-large; 
@@ -189,6 +121,8 @@ a {
         gap: 10px;
     }
 }
+
+
 
 
 

@@ -1,18 +1,33 @@
 
 #include "uri_handlers.h"
 
-esp_err_t styles_handler(httpd_req_t *req) {
+esp_err_t login_styles_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "text/css");
     httpd_resp_set_hdr(req, "Cache-Control", "public, max-age=86400");
-    ESP_LOGI(" ","%i %s",styles_asm_end-styles_asm_start,styles_asm_start);
-    httpd_resp_send(req, styles_asm_start, styles_asm_end - styles_asm_start);
+    httpd_resp_send(req, login_styles_asm_start, login_styles_asm_end - login_styles_asm_start);
     return ESP_OK;
 }
 
-esp_err_t index_handler(httpd_req_t *req) {
+esp_err_t main_styles_handler(httpd_req_t *req) {
+    httpd_resp_set_type(req, "text/css");
+    httpd_resp_set_hdr(req, "Cache-Control", "public, max-age=86400");
+    httpd_resp_send(req, main_styles_asm_start, main_styles_asm_end - main_styles_asm_start);
+    return ESP_OK;
+}
+
+esp_err_t generator_styles_handler(httpd_req_t *req) {
+    httpd_resp_set_type(req, "text/css");
+    httpd_resp_set_hdr(req, "Cache-Control", "public, max-age=86400");
+    httpd_resp_send(req, generator_styles_asm_start, generator_styles_asm_end - generator_styles_asm_start);
+    return ESP_OK;
+}
+
+
+
+esp_err_t generator_index_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "text/js");
     httpd_resp_set_hdr(req, "Cache-Control", "public, max-age=86400");
-    httpd_resp_send(req, index_asm_start, index_asm_end-index_asm_start);
+    httpd_resp_send(req, generator_index_asm_start, generator_index_asm_end-index_asm_start);
     return ESP_OK;
 }
 
@@ -176,16 +191,27 @@ size_t get_uri_handlers(httpd_uri_t*uris){
     uri.user_ctx = NULL;
     add_uri(uris,uri,&count);
 
-    
-    uri.uri = "/styles.css";
+    uri.uri = "/css/login_styles.css";
     uri.method = HTTP_GET;
-    uri.handler = styles_handler;
+    uri.handler = login_styles_handler;
+    uri.user_ctx = NULL;
+    add_uri(uris,uri,&count);
+    
+    uri.uri = "/css/main_styles.css";
+    uri.method = HTTP_GET;
+    uri.handler = main_styles_handler;
     uri.user_ctx = NULL;
     add_uri(uris,uri,&count);
 
-    uri.uri = "/index.js";
+    uri.uri = "/css/generator_styles.css";
     uri.method = HTTP_GET;
-    uri.handler = index_handler;
+    uri.handler = generator_styles_handler;
+    uri.user_ctx = NULL;
+    add_uri(uris,uri,&count);
+
+    uri.uri = "/js/generator_index.js";
+    uri.method = HTTP_GET;
+    uri.handler = generator_index_handler;
     uri.user_ctx = NULL;
     add_uri(uris,uri,&count);
 

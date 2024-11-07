@@ -25,11 +25,18 @@ extern httpd_handle_t WebServer;
 extern const char login_asm_start[] asm("_binary_login_html_start");
 extern const char login_asm_end[] asm("_binary_login_html_end");
 
-extern const char styles_asm_start[] asm("_binary_styles_css_start");
-extern const char styles_asm_end[] asm("_binary_styles_css_end");
+extern const char login_styles_asm_start[] asm("_binary_login_styles_css_start");
+extern const char login_styles_asm_end[] asm("_binary_login_styles_css_end");
 
-extern const char index_asm_start[] asm("_binary_index_js_start");
-extern const char index_asm_end[] asm("_binary_index_js_end");
+
+extern const char main_styles_asm_start[] asm("_binary_main_styles_css_start");
+extern const char main_styles_asm_end[] asm("_binary_main_styles_css_end");
+
+extern const char generator_styles_asm_start[] asm("_binary_generator_styles_css_start");
+extern const char generator_styles_asm_end[] asm("_binary_generator_styles_css_end");
+
+extern const char generator_index_asm_start[] asm("_binary_generator_index_js_start");
+extern const char generator_index_asm_end[] asm("_binary_generator_index_js_end");
 
 extern const char home_asm_start[] asm("_binary_home_html_start");
 extern const char home_asm_end[] asm("_binary_home_html_end");

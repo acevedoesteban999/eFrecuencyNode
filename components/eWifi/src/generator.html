@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - eFrecuencyNode</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./css/main_styles.css">
+    <link rel="stylesheet" href="./css/generator_styles.css">
 </head>
 <body>
     
@@ -31,6 +32,18 @@
         <h2 class="head-text" >
             Generator
         </h2>
+        <div class="spinner"></div>
+        
+        <div class="generators">
+            <div class="generator active" data-target="generator0">Generator 1</div>
+            
+            <div class="generator" data-target="generator1">Generator 2</div>
+            
+            <div class="generator" data-target="generator2">Generator 3</div>
+        
+            <div class="generator" data-target="generator3">Generator 4</div> 
+        </div>
+
         <div class="options">
             <div class="option" data-target="content0">Variador Manual</div>  
             <div class="option active" data-target="content1">Variador x Deriva</div>
@@ -73,7 +86,7 @@
     <footer>
     </footer>
 <body>
-<script src="./index.js"></script>
+<script src="./js/generator_index.js"></script>
 
 </html>
 
