@@ -21,13 +21,21 @@
 extern const char *TAG_WIFI;
 extern httpd_handle_t WebServer;
 // Declaraciones de variables HTML
-extern const char login_start[] asm("_binary_login_html_start");
 
-extern const char styles_asm[] asm("_binary_styles_css_start");
-extern const char index_asm[] asm("_binary_index_js_start");
-extern const char login_end[] asm("_binary_login_html_end");
-extern const char home_start[] asm("_binary_home_html_start");
-extern const char home_end[] asm("_binary_home_html_end");
+extern const char login_asm_start[] asm("_binary_login_html_start");
+extern const char login_asm_end[] asm("_binary_login_html_end");
+
+extern const char styles_asm_start[] asm("_binary_styles_css_start");
+extern const char styles_asm_end[] asm("_binary_styles_css_end");
+
+extern const char index_asm_start[] asm("_binary_index_js_start");
+extern const char index_asm_end[] asm("_binary_index_js_end");
+
+extern const char home_asm_start[] asm("_binary_home_html_start");
+extern const char home_asm_end[] asm("_binary_home_html_end");
+
+extern const char generator_asm_start[] asm("_binary_generator_html_start");
+extern const char generator_asm_end[] asm("_binary_generator_html_end");
 
 // Prototipos de funciones
 void wifi_init_softap(void);

@@ -64,7 +64,7 @@ esp_err_t http_404_error_handler(httpd_req_t *req, httpd_err_code_t err)
     // Set status
     httpd_resp_set_status(req, "302 Temporary Redirect");
     // Redirect to the "/" home directory
-    httpd_resp_set_hdr(req, "Location", "/home");
+    httpd_resp_set_hdr(req, "Location", "/home.html");
     // iOS requires content in the response to detect a captive portal, simply redirecting is not sufficient.
     httpd_resp_send(req, "Redirect to the captive portal", HTTPD_RESP_USE_STRLEN);
 

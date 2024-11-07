@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - eFrecuencyNode</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    
+<header>
+    <nav>
+        <div class="nav-left">
+            <a class="btn-outline" href="./home.html" >
+                Home
+            </a>
+            <a class="btn-outline" href="./settings.html">Settings</a>
+        </div>
+
+        <div class="nav-center">
+            <a class="btn-disabled"  href="./generator.html">Generator</a>
+            <a class="btn-outline"  href="./frecuency.html">Frequency</a>
+        </div>
+
+        <div class="nav-right">
+            <a class="btn-logout"  href="/logout">Logout</a>
+        </div>
+    </nav>
+</header>
+    <main>
+        <h2 class="head-text" >
+            eFrecuency Generator
+        </h2>
+        <div class="options">
+            <div class="option" data-target="content0">Variador Manual</div>  
+            <div class="option active" data-target="content1">Variador x Deriva</div>
+            <div class="option" data-target="content2">Variador Analógico</div>
+        </div>
+        
+        <div class="content" id="content0">
+        <form id="form0" action="./home" method="post" onsubmit="sendData(event, 0)">
+            <input type="hidden" name="mode" value="0">
+            <label for="frecuency" style="text-align: start;">Frecuency</label>
+            <input type="number" name="frecuency" placeholder="Frecuencia" min="114" max="122" value="120" required>
+            <button type="submit">Iniciar</button>
+        </form>
+        </div>
+        
+        <div class="content active" id="content1">
+        <form id="form1" action="./home" method="post" onsubmit="sendData(event, 1)">
+            <input type="hidden" name="mode" value="1">
+            <label for="min" style="text-align: start; ">Min - Frec</label>
+            <input type="number" name="min" placeholder="Min" min="114" max="122" value="116" required>
+            <label for="max" style="text-align: start;">Max - Frec</label>
+            <input type="number" name="max" placeholder="Max" min="114" max="122" value="122" required>
+            <label for="drift" style="text-align: start;">Drift</label>
+            <input type="number" name="drift" step="0.001" placeholder="Deriva" min="-1" max="1" value="-0.1" required>
+            <button type="submit">Iniciar</button>
+        </form>
+        </div>
+
+        <div class="content" id="content2">
+        <form id="form2" action="./home" method="post" onsubmit="sendData(event, 2)">
+            <input type="hidden" name="mode" value="2">
+            <div style=" margin-bottom: 20px;">
+                GPIO34
+            </div>
+            <button id="startAnalog">Iniciar</button>
+        </form>
+        </div>
+    
+    </main>
+    <footer>
+        
+    </footer>
+<body>
+<script src="./index.js"></script>
+
+</html>
+
+

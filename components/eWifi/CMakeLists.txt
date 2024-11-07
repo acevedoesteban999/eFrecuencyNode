@@ -8,6 +8,7 @@ idf_component_register(
 
     EMBED_FILES 
         "src/home.html" 
+        "src/generator.html" 
         "src/login.html" 
         "src/styles.css" 
         "src/index.js" 
