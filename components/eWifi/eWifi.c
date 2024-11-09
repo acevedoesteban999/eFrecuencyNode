@@ -78,15 +78,16 @@ void start_webserver(httpd_uri_t*uri_handlers,size_t uri_size) {
     wifi_init_softap();
     
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
+    config.max_uri_handlers = uri_size;
     
     // Inicia el servidor HTTP
     ESP_ERROR_CHECK(httpd_start(&WebServer, &config));
     
-        
+
     // Registra las URIs
     for(unsigned i =0; i < uri_size; i++)
         httpd_register_uri_handler(WebServer, &uri_handlers[i]);
-
+   
     httpd_register_err_handler(WebServer, HTTPD_404_NOT_FOUND, http_404_error_handler);
     
     init_users();

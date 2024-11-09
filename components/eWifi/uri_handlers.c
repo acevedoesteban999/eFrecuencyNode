@@ -25,7 +25,7 @@ esp_err_t generator_styles_handler(httpd_req_t *req) {
 
 
 esp_err_t generator_index_handler(httpd_req_t *req) {
-    httpd_resp_set_type(req, "text/js");
+    httpd_resp_set_type(req, "text/javascript");
     httpd_resp_set_hdr(req, "Cache-Control", "public, max-age=86400");
     httpd_resp_send(req, generator_index_asm_start, generator_index_asm_end-generator_index_asm_start);
     return ESP_OK;
@@ -149,71 +149,88 @@ esp_err_t logout_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
-void add_uri(httpd_uri_t*uris,httpd_uri_t uri,size_t*count){
-    if (*count >= MAX_URI)
-        return;
-    uris[*count] = uri;
+void add_uri(httpd_uri_t*uris,httpd_uri_t uri,size_t*count,bool has_urli){
+    if(has_urli)
+        uris[*count] = uri;
     *count += 1;
 }
 
 size_t get_uri_handlers(httpd_uri_t*uris){
-    
+    bool has_urli = (uris != NULL);
     httpd_uri_t uri;
     size_t count = 0;
-    
-    uri.uri = "/home.html";
-    uri.method = HTTP_GET;
-    uri.handler = home_get_handler;
-    uri.user_ctx = NULL;
-    add_uri(uris,uri,&count);
 
-    uri.uri = "/generator.html";
-    uri.method = HTTP_GET;
-    uri.handler = generator_get_handler;
-    uri.user_ctx = NULL;
-    add_uri(uris,uri,&count);
+    if(has_urli){ 
+        uri.uri = "/home.html";
+        uri.method = HTTP_GET;
+        uri.handler = home_get_handler;
+        uri.user_ctx = NULL;
+    }
+    add_uri(uris,uri,&count,has_urli);
+
+    if(has_urli){ 
+        uri.uri = "/generator.html";
+        uri.method = HTTP_GET;
+        uri.handler = generator_get_handler;
+        uri.user_ctx = NULL;
+    }
+    add_uri(uris,uri,&count,has_urli);
     
-    uri.uri = "/login.html";
-    uri.method = HTTP_GET;
-    uri.handler = login_get_handler;
-    uri.user_ctx = NULL;
-    add_uri(uris,uri,&count);
+    if(has_urli){ 
+        uri.uri = "/login.html";
+        uri.method = HTTP_GET;
+        uri.handler = login_get_handler;
+        uri.user_ctx = NULL;
+    }
+    add_uri(uris,uri,&count,has_urli);
    
-    uri.uri = "/login.html";
-    uri.method = HTTP_POST;
-    uri.handler = login_post_handler;
-    uri.user_ctx = NULL;
-    add_uri(uris,uri,&count);
+    if(has_urli){ 
+        uri.uri = "/login.html";
+        uri.method = HTTP_POST;
+        uri.handler = login_post_handler;
+        uri.user_ctx = NULL;
+    }
+    add_uri(uris,uri,&count,has_urli);
     
-    uri.uri = "/logout";
-    uri.method = HTTP_GET;
-    uri.handler = logout_handler;
-    uri.user_ctx = NULL;
-    add_uri(uris,uri,&count);
+    if(has_urli){ 
+        uri.uri = "/logout";
+        uri.method = HTTP_GET;
+        uri.handler = logout_handler;
+        uri.user_ctx = NULL;
+    }
+    add_uri(uris,uri,&count,has_urli);
 
-    uri.uri = "/css/login_styles.css";
-    uri.method = HTTP_GET;
-    uri.handler = login_styles_handler;
-    uri.user_ctx = NULL;
-    add_uri(uris,uri,&count);
+    if(has_urli){ 
+        uri.uri = "/css/login_styles.css";
+        uri.method = HTTP_GET;
+        uri.handler = login_styles_handler;
+        uri.user_ctx = NULL;
+    }
+    add_uri(uris,uri,&count,has_urli);
     
-    uri.uri = "/css/main_styles.css";
-    uri.method = HTTP_GET;
-    uri.handler = main_styles_handler;
-    uri.user_ctx = NULL;
-    add_uri(uris,uri,&count);
+    if(has_urli){ 
+        uri.uri = "/css/main_styles.css";
+        uri.method = HTTP_GET;
+        uri.handler = main_styles_handler;
+        uri.user_ctx = NULL;
+    }
+    add_uri(uris,uri,&count,has_urli);
 
-    uri.uri = "/css/generator_styles.css";
-    uri.method = HTTP_GET;
-    uri.handler = generator_styles_handler;
-    uri.user_ctx = NULL;
-    add_uri(uris,uri,&count);
+    if(has_urli){ 
+        uri.uri = "/css/generator_styles.css";
+        uri.method = HTTP_GET;
+        uri.handler = generator_styles_handler;
+        uri.user_ctx = NULL;
+    }
+    add_uri(uris,uri,&count,has_urli);
 
-    uri.uri = "/js/generator_index.js";
-    uri.method = HTTP_GET;
-    uri.handler = generator_index_handler;
-    uri.user_ctx = NULL;
-    add_uri(uris,uri,&count);
+    if(has_urli){
+        uri.uri = "/js/generator_index.js";
+        uri.method = HTTP_GET;
+        uri.handler = generator_index_handler;
+        uri.user_ctx = NULL;
+    }
+    add_uri(uris,uri,&count,has_urli);
 
 
 

@@ -16,7 +16,6 @@
 #define ESP_WIFI_PASS "ESP32_PASSW"
 #define MAX_STA_CONN 4
 #define BUFF_LEN 100
-#define MAX_URI 10
 
 extern const char *TAG_WIFI;
 extern httpd_handle_t WebServer;
