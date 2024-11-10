@@ -32,19 +32,81 @@
         <h2 class="head-text" >
             Generator
         </h2>
-        <div class="spinner"></div>
         
-        <div class="generators">
-            <div class="generator active" data-target="generator0">Generator 1</div>
+        <div class="contents">
+            <div class="btn-outline content active" onclick="GetData(0)">Generator 1</div>
             
-            <div class="generator" data-target="generator1">Generator 2</div>
+            <div class="btn-outline content" onclick="GetData(1)">Generator 2</div>
             
-            <div class="generator" data-target="generator2">Generator 3</div>
-        
-            <div class="generator" data-target="generator3">Generator 4</div> 
+            <div class="btn-outline content" onclick="GetData(2)">Generator 3</div>
+        </div>
+        <form onsubmit="sendData(event)" id="main_form">
+
+            <div id="loading_data">
+                <div class="" style="justify-content: center;display: flex;">
+
+                    <div class="spinner" id="spinner_card"></div>
+                </div>
+                <br>
+                <div id="text_loading">
+                    Loading Data
+                </div>
+            </div>
+            <div class="card card-submit d-none" id="submit_card">
+                        
+                <div class="card-body">
+                    <input type="hidden" name="generator" value="0" id="input_generator">
+                    <label for="mode">Mode</label>
+                    <select name="mode" id="select_mode">
+                        <option value="0" selected>Manual</option>
+                        <option value="1">Derivative</option>
+                        <option value="2">Analogue</option>
+                        <option value="-1">Inactive</option>
+                    </select>
+                    <div id="div_for_hide">
+                        <input type="hidden" name="mode" value="0">
+                        <label for="gpio">GPIO</label>
+                        <input type="number" id="input_gpio" name="input_gpio" max="39" value="22">    
+                        <hr>
+                        <br>
+                        <div id="mode0" class="modes d-none">
+                            <div class="form-group">
+                                <label for="frecuency" >Frecuency</label>
+                                <input type="number" name="frecuency" value="120" required>
+                            </div>
+                        </div>
+                        
+                        <div id="mode1" class="modes d-none">
+                            <div class="form-group">
+                                <label for="min_frecuency">Min - Frec</label>
+                                <input type="number" name="min_frecuency" value="116" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="max_frecuency">Max - Frec</label>
+                                <input type="number" name="max_frecuency" value="122" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="drift" >Drift</label>
+                                <input type="number" name="drift" step="0.001" value="-0.1" required>
+                            </div>
+                        </div>            
+                        <div id="mode2" class="modes d-none">
+                            <div class="form-group">
+                                <label for="analog_gpio">IN-GPIO</label>
+                                <input type="number" id="analog_gpio" name="analog_gpio" max="39" value="34">    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer">    
+                    <button class="btn-submit" type="submit" id="submit_button">Apply</button>
+                </div>
+            </div>
+        </form>
         </div>
 
-        <div class="options">
+        <!-- <div class="options">
             <div class="option" data-target="content0">Variador Manual</div>  
             <div class="option active" data-target="content1">Variador x Deriva</div>
             <div class="option" data-target="content2">Variador Analógico</div>
@@ -53,7 +115,7 @@
         <div class="content" id="content0">
         <form id="form0" action="./home" method="post" onsubmit="sendData(event, 0)">
             <input type="hidden" name="mode" value="0">
-            <label for="frecuency" style="text-align: start;">Frecuency</label>
+            <label for="frecuency" >Frecuency</label>
             <input type="number" name="frecuency" placeholder="Frecuencia" min="114" max="122" value="120" required>
             <button type="submit">Iniciar</button>
         </form>
@@ -62,11 +124,11 @@
         <div class="content active" id="content1">
         <form id="form1" action="./home" method="post" onsubmit="sendData(event, 1)">
             <input type="hidden" name="mode" value="1">
-            <label for="min" style="text-align: start; ">Min - Frec</label>
+            <label for="min" >Min - Frec</label>
             <input type="number" name="min" placeholder="Min" min="114" max="122" value="116" required>
-            <label for="max" style="text-align: start;">Max - Frec</label>
+            <label for="max" >Max - Frec</label>
             <input type="number" name="max" placeholder="Max" min="114" max="122" value="122" required>
-            <label for="drift" style="text-align: start;">Drift</label>
+            <label for="drift" >Drift</label>
             <input type="number" name="drift" step="0.001" placeholder="Deriva" min="-1" max="1" value="-0.1" required>
             <button type="submit">Iniciar</button>
         </form>
@@ -80,7 +142,7 @@
             </div>
             <button id="startAnalog">Iniciar</button>
         </form>
-        </div>
+        </div> -->
     
     </main>
     <footer>

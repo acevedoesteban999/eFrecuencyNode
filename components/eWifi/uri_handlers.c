@@ -31,6 +31,68 @@ esp_err_t generator_index_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
+
+esp_err_t get_generator_data_post_handler(httpd_req_t *req) {
+    // Verifica autenticación
+    if (isAuth(req)) {
+        int ret, remaining = req->content_len;
+        char buff[remaining + 1];
+        
+        // Leer el cuerpo de la solicitud
+        ret = httpd_req_recv(req, buff, remaining);
+        if (ret <= 0) { // Error o conexión cerrada
+            if (ret == HTTPD_SOCK_ERR_TIMEOUT) {
+                httpd_resp_send_408(req); // Timeout
+            }
+            return ESP_FAIL;
+        }
+
+        buff[ret] = '\0'; // Terminar la cadena
+        
+        int gener;
+        float min, max, drift , frecuency;
+        int error_read ;
+        // Extraer los datos del formulario usando sscanf
+        error_read = sscanf(buff, "generator=%i", &gener);
+        if(error_read == -1)
+            return httpd_resp_send_custom_err(req,422,"Miss Generator Value");
+        
+        char json_response[100];
+        generator_struct generator = get_generator(gener);
+        
+        switch (generator.mode)
+        {
+        case 0:
+
+            break;
+        
+        case 1:
+            break;
+        
+        case 2:
+            break;
+        
+        default: // case: -1 
+            snprintf(json_response, sizeof(json_response),
+                "{\"mode\":%d}",
+                generator.mode
+            );   
+        
+            break;
+        }
+        httpd_resp_set_type(req, "application/json");
+        httpd_resp_send(req, json_response, strlen(json_response));
+    } else {
+        // Redirige a /login si no está autenticado
+        ESP_LOGE(TAG_WIFI, "User not authenticated, redirecting to /login");
+        httpd_resp_set_status(req, "302 Found");
+        httpd_resp_set_hdr(req, "Location", "/login.html");
+        httpd_resp_send(req, NULL, 0);
+    }
+
+    return ESP_OK;
+}
+
 esp_err_t home_get_handler(httpd_req_t *req) {
     // Verifica autenticación
     if (isAuth(req)) {
@@ -228,6 +290,14 @@ size_t get_uri_handlers(httpd_uri_t*uris){
         uri.uri = "/js/generator_index.js";
         uri.method = HTTP_GET;
         uri.handler = generator_index_handler;
+        uri.user_ctx = NULL;
+    }
+    add_uri(uris,uri,&count,has_urli);
+
+    if(has_urli){
+        uri.uri = "/get_generator_data";
+        uri.method = HTTP_POST;
+        uri.handler = get_generator_data_post_handler;
         uri.user_ctx = NULL;
     }
     add_uri(uris,uri,&count,has_urli);

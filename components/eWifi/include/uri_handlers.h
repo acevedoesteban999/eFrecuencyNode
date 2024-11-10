@@ -1,4 +1,5 @@
 #include "eWifi.h"
+#include "eGenerator.h"
 
 esp_err_t home_get_handler(httpd_req_t *req);
 

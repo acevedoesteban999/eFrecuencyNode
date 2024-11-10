@@ -1,5 +1,5 @@
 
-.options {
+.contents {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -8,40 +8,25 @@
     width: 100%;
 }
 
-.option {
+.content {
     padding: 10px 20px;
     margin: 10px;
     background-color: #ffffff;
     border: 2px solid #4c4eaf;
+    color: #4c4eaf;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
     text-align: center;
     flex: 1 1 150px;
     box-sizing: border-box;
     max-width: 200px;
-    transition: background-color 0.3s;
-}
-
-.option.active {
-    background-color: #4c4eaf;
-    color: #ffffff;
-}
-
-.content {
-    display: none;
-    padding: 20px;
-    background-color: #ffffff;
-    border: 2px solid #4c4eaf;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    box-sizing: border-box;
+    transition: 0.3s;
 }
 
 .content.active {
-    display: block;
+    background-color: #4c4eaf;
+    color: #ffffff;
+    pointer-events: none;
 }
 
 input[type="number"] {
@@ -53,27 +38,56 @@ input[type="number"] {
     box-sizing: border-box;
 }
 
-button {
+.btn-submit{
+    font-size: 16px;
     padding: 10px 20px;
-    background-color: #4c4eaf;;
-    border: none;
-    border-radius: 5px;
+    margin: 10px;
+    background-color: #4c4eaf;
     color: #ffffff;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 1s ease;
 }
 
-.option:hover, .button:hover {
+
+.card-submit{
+    transition: border 1s ease;
+    border: 2px solid white;
+}
+.card-submit.active{
+    border-color: rgb(52, 206, 73);
+}
+.card-submit.error{
+    border-color: rgb(194, 31, 31);
+}
+
+.btn-submit{
+    transition: background-color 1s ease;
+}
+.btn-submit.active{
+    background-color: rgb(52, 206, 73);
+}
+.btn-submit.error{
+    background-color: rgb(194, 31, 31);
+}
+
+.btn-outline {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition:  0.3s;
+}
+
+.btn-submit:hover,.btn-outline:hover {
     background-color: #7479c1; 
     color: #ffffff; 
 }
 
-
 /* SPINNER */
 .spinner {
-    width: 30px;
-    height: 30px;
-    border: 7px solid transparent; /* Bordes transparentes */
+    width: 60px;
+    height: 60px;
+    border: 8px solid transparent; /* Bordes transparentes */
     border-top-color: #4c4eaf; /* Color del borde superior */
     border-bottom-color: #4c4eaf; /* Color del borde superior */
     border-left-color: #4c4eaf; /* Color del borde superior */
@@ -91,3 +105,4 @@ button {
         transform: rotate(360deg);
     }
 }
+

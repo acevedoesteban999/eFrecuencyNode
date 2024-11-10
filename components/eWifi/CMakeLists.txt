@@ -21,4 +21,5 @@ idf_component_register(
         esp_wifi
         eStore
         eAuth
+        eGenerator
 )
