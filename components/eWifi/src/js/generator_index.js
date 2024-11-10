@@ -7,6 +7,13 @@ const div_for_hide = document.getElementById('div_for_hide');
 const text_loading = document.getElementById("text_loading");
 const loading_data = document.getElementById('loading_data');
 const input_generator = document.getElementById("input_generator");
+const input_out_gpio = document.getElementById("input_out_gpio");
+const input_frecuency = document.getElementById("input_frecuency");
+const input_min_frecuency = document.getElementById("input_min_frecuency");
+const input_max_frecuency = document.getElementById("input_max_frecuency");
+const input_drift = document.getElementById("input_drift");
+const input_analog_gpio = document.getElementById("input_analog_gpio");
+
 
 select_mode.addEventListener('change',()=>{
     document.querySelectorAll('.modes').forEach(item => item.classList.add('d-none'));
@@ -62,6 +69,23 @@ function GetData(generator){
         submit_card.classList.remove('d-none');
         input_generator.value = generator;
         select_mode.value = data.mode
+        switch (data.mode) {
+            case 0:
+                input_out_gpio.value =  data.out_gpio;
+                input_frecuency.value =  data.frecuency;
+                
+                break;
+            case 1:
+                input_out_gpio.value =  data.out_gpio;
+                input_min_frecuency.value =  data.min_frecuency;
+                input_max_frecuency.value =  data.max_frecuency;
+                input_drift.value =  data.drift;
+                break
+            case 2:
+                input_out_gpio.value =  data.out_gpio;
+                input_analog_gpio.value = data.analog_gpio
+                break;
+        }
         select_mode.dispatchEvent(new Event('change'));
     })
     .catch(error => {
@@ -80,42 +104,42 @@ function sendData(event) {
     const form = new FormData(form_element);
     var list;
     switch (select_mode.value) {
-        case 0:
-            list = ['frecuency']
+        case "0":
+            list = ['out_gpio','frecuency']
             break;
         
-        case 1:
-            list = ['min_frecuency','max_frecuency','drift']
+        case "1":
+            list = ['out_gpio','min_frecuency','max_frecuency','drift']
             break;
 
-        case 2:
-            list = ['analog_gpio']
+        case "2":
+            list = ['out_gpio','analog_gpio']
             break;
         default:
             list = []
             break;
     }
-    list.push('mode','input_gpio');
-
+    list.push('generator','mode');
 
     list.forEach(item => {
         data.append(item,form.get(item));
     })
     
-    
-    fetch(form.action, {
+    fetch("./set_generator", {
         method: 'POST',
         body: data.toString()
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Error en la respuesta del servidor');
+            set_form_color('error');
+            console.error('Error:', error);
         }
-        return response.text();
+        return response.json();
     })
     .then(data => {
         set_form_color('active');
         console.log("OK");
+        console.log(data);
     })
     .catch(error => {
         set_form_color('error');

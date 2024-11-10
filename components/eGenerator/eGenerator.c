@@ -1,12 +1,8 @@
 #include "eGenerator.h"
 
-
-
 generator_struct GENERATORS[MAX_GENERATORS];
 
-
-
-void write_generator_in_nvs(const char* name, generator_struct generator){
+void write_generator_in_nvs(const char* name, generator_struct*generator){
     write_struct_in_nvs(name,&generator);
 }
 
@@ -40,4 +36,11 @@ generator_struct get_generator(size_t generator){
     if (generator >= MAX_GENERATORS)
         return GENERATORS[0];
     return GENERATORS[generator];
+}
+
+
+generator_struct* get_generator_ptr(size_t generator){
+    if (generator >= MAX_GENERATORS)
+        return &GENERATORS[0];
+    return &GENERATORS[generator];
 }

@@ -167,7 +167,6 @@ int8_t read_i8_from_nvs(const char* name) {
     return 0;  // Retorna 0 si hay un error al leer el valor
 }
 
-
 // Guarda un valor entero de 64 bits en NVS
 void write_uint64_in_nvs(const char* name, uint64_t value) {
     nvs_handle_t nvs_handle;

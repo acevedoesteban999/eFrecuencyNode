@@ -64,36 +64,36 @@
                         <option value="-1">Inactive</option>
                     </select>
                     <div id="div_for_hide">
-                        <input type="hidden" name="mode" value="0">
+                        <input type="hidden" id="input_mode" name="mode" value="0">
                         <label for="gpio">GPIO</label>
-                        <input type="number" id="input_gpio" name="input_gpio" max="39" value="22">    
+                        <input type="number" id="input_out_gpio" name="out_gpio" max="39" value="22">    
                         <hr>
                         <br>
                         <div id="mode0" class="modes d-none">
                             <div class="form-group">
                                 <label for="frecuency" >Frecuency</label>
-                                <input type="number" name="frecuency" value="120" required>
+                                <input type="number" id="input_frecuency" name="frecuency" value="120" required>
                             </div>
                         </div>
                         
                         <div id="mode1" class="modes d-none">
                             <div class="form-group">
                                 <label for="min_frecuency">Min - Frec</label>
-                                <input type="number" name="min_frecuency" value="116" required>
+                                <input type="number" id="input_min_frecuency" name="min_frecuency" value="116" required>
                             </div>
                             <div class="form-group">
                                 <label for="max_frecuency">Max - Frec</label>
-                                <input type="number" name="max_frecuency" value="122" required>
+                                <input type="number" id="input_max_frecuency" name="max_frecuency" value="122" required>
                             </div>
                             <div class="form-group">
                                 <label for="drift" >Drift</label>
-                                <input type="number" name="drift" step="0.001" value="-0.1" required>
+                                <input type="number" id="input_drift" name="drift" step="0.001" value="-0.1" required>
                             </div>
                         </div>            
                         <div id="mode2" class="modes d-none">
                             <div class="form-group">
                                 <label for="analog_gpio">IN-GPIO</label>
-                                <input type="number" id="analog_gpio" name="analog_gpio" max="39" value="34">    
+                                <input type="number" id="input_analog_gpio" name="analog_gpio" max="39" value="34">    
                             </div>
                         </div>
                     </div>

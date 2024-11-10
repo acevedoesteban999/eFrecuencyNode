@@ -22,12 +22,97 @@ esp_err_t generator_styles_handler(httpd_req_t *req) {
     return ESP_OK;
 }
 
-
-
 esp_err_t generator_index_handler(httpd_req_t *req) {
     httpd_resp_set_type(req, "text/javascript");
     httpd_resp_set_hdr(req, "Cache-Control", "public, max-age=86400");
     httpd_resp_send(req, generator_index_asm_start, generator_index_asm_end-generator_index_asm_start);
+    return ESP_OK;
+}
+
+
+bool get_int_param_value(const char *input, const char *key, int *value) {
+    char pattern[20];
+    snprintf(pattern, sizeof(pattern), "%s=", key);
+
+    char *pos = strstr(input, pattern);
+    if (pos) {
+        pos += strlen(pattern);
+        if (sscanf(pos, "%d", value) > 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool get_float_param_value(const char *input, const char *key, float *value){
+    char pattern[20];
+    snprintf(pattern, sizeof(pattern), "%s=", key);
+
+    char *pos = strstr(input, pattern);
+    if (pos) {
+        pos += strlen(pattern);
+        if (sscanf(pos, "%f", value) > 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+esp_err_t set_generator_post_handler(httpd_req_t *req) {
+    // Verifica autenticación
+    if (isAuth(req)) {
+        char json_response[100];
+        int ret, remaining = req->content_len;
+        char buff[remaining + 1];
+
+        
+        ret = httpd_req_recv(req, buff, remaining);
+        if (ret <= 0) { 
+            if (ret == HTTPD_SOCK_ERR_TIMEOUT) {
+                httpd_resp_send_408(req); 
+            }
+            return ESP_FAIL;
+        }
+
+        buff[ret] = '\0'; 
+        
+        int mode,generator_index;
+        if(!get_int_param_value(buff,"generator",&generator_index))
+            return httpd_resp_send_custom_err(req,"422","Miss Generator Value");
+        if(!get_int_param_value(buff,"mode",&mode))
+            return httpd_resp_send_custom_err(req,"422","Miss Mode Value");
+        
+        generator_struct*generator = get_generator_ptr(generator_index);
+        
+        if(mode == 0){
+            float frecuency;
+            int out_gpio;
+            if(!get_int_param_value(buff,"out_gpio",&out_gpio))
+                return httpd_resp_send_custom_err(req,"422","Miss a Value");
+            
+            if(!get_float_param_value(buff,"frecuency",&frecuency))
+                return httpd_resp_send_custom_err(req,"422","Miss a Value");
+            
+            generator->mode = mode;
+            generator->OUT_GPIO = out_gpio;
+            generator->frecuency = frecuency;
+            write_generator_in_nvs("g0",generator);
+        }
+        else
+            generator->mode = -1;
+
+        snprintf(json_response, sizeof(json_response),"{\"mode\":%d}",generator->mode);   
+
+        httpd_resp_set_type(req, "application/json");
+        httpd_resp_send(req, json_response, strlen(json_response));
+    } else {
+
+        ESP_LOGE(TAG_WIFI, "User not authenticated, redirecting to /login");
+        httpd_resp_set_status(req, "302 Found");
+        httpd_resp_set_hdr(req, "Location", "/login.html");
+        httpd_resp_send(req, NULL, 0);
+    }
+
     return ESP_OK;
 }
 
@@ -37,25 +122,21 @@ esp_err_t get_generator_data_post_handler(httpd_req_t *req) {
     if (isAuth(req)) {
         int ret, remaining = req->content_len;
         char buff[remaining + 1];
+
         
-        // Leer el cuerpo de la solicitud
         ret = httpd_req_recv(req, buff, remaining);
-        if (ret <= 0) { // Error o conexión cerrada
+        if (ret <= 0) { 
             if (ret == HTTPD_SOCK_ERR_TIMEOUT) {
-                httpd_resp_send_408(req); // Timeout
+                httpd_resp_send_408(req); 
             }
             return ESP_FAIL;
         }
 
-        buff[ret] = '\0'; // Terminar la cadena
+        buff[ret] = '\0'; 
         
         int gener;
-        float min, max, drift , frecuency;
-        int error_read ;
-        // Extraer los datos del formulario usando sscanf
-        error_read = sscanf(buff, "generator=%i", &gener);
-        if(error_read == -1)
-            return httpd_resp_send_custom_err(req,422,"Miss Generator Value");
+        if(!get_int_param_value(buff,"generator",&gener))
+            return httpd_resp_send_custom_err(req,"422","Miss Generator Value");
         
         char json_response[100];
         generator_struct generator = get_generator(gener);
@@ -63,13 +144,33 @@ esp_err_t get_generator_data_post_handler(httpd_req_t *req) {
         switch (generator.mode)
         {
         case 0:
-
+            snprintf(json_response, sizeof(json_response),
+                "{\"mode\":%d,\"out_gpio\":%i,\"frecuency\":%f}",
+                generator.mode,
+                generator.OUT_GPIO,
+                generator.frecuency
+            );   
             break;
         
         case 1:
+            snprintf(json_response, sizeof(json_response),
+                "{\"mode\":%d,\"out_gpio\":%i,\"min_frecuency\":%f,\"max_frecuency\":%f,\"drift\":%f}",
+                generator.mode,
+                generator.OUT_GPIO,
+                generator.min_frecuency,
+                generator.max_frecuency,
+                generator.drift
+            );   
+                
             break;
-        
+
         case 2:
+            snprintf(json_response, sizeof(json_response),
+                    "{\"mode\":%d,\"out_gpio\":%i,\"analog_gpio\":%i}",
+                    generator.mode,
+                    generator.OUT_GPIO,
+                    generator.analog_GPIO
+                ); 
             break;
         
         default: // case: -1 
@@ -177,7 +278,7 @@ esp_err_t login_post_handler(httpd_req_t *req) {
         // Manejo de error
         return ESP_FAIL;
     }
-    buff[ret] = '\0'; // Terminar la cadena
+    buff[ret] = '\0'; 
 
     // Extraer nombre de usuario y contraseña
     char *username = strtok(buff, "&");
@@ -298,6 +399,14 @@ size_t get_uri_handlers(httpd_uri_t*uris){
         uri.uri = "/get_generator_data";
         uri.method = HTTP_POST;
         uri.handler = get_generator_data_post_handler;
+        uri.user_ctx = NULL;
+    }
+    add_uri(uris,uri,&count,has_urli);
+
+    if(has_urli){
+        uri.uri = "/set_generator";
+        uri.method = HTTP_POST;
+        uri.handler = set_generator_post_handler;
         uri.user_ctx = NULL;
     }
     add_uri(uris,uri,&count,has_urli);
