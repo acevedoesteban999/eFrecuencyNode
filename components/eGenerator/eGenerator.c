@@ -25,6 +25,7 @@ generator_struct read_generator_in_nvs(const char* name) {
 }
 
 void init_Generators(){
+    init_nvs();
     char g_name[5];
     for(unsigned i=0;i<MAX_GENERATORS;i++){
         snprintf(g_name, sizeof(g_name),"g%u",i);
