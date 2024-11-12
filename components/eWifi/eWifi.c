@@ -4,6 +4,7 @@ const char *TAG_WIFI = "WIFI";
 httpd_handle_t WebServer = NULL; 
 char* _login_asm_start = NULL;
 char* _login_asm_end = NULL;
+char redirect_404[MAX_404_BUFFER_SIZE];
 
 void wifi_event_handler(void *arg, esp_event_base_t event_base,int32_t event_id, void *event_data)
 {
@@ -91,7 +92,6 @@ bool get_float_param_value(const char *input, const char *key, float *value){
 // Login(GET)
 esp_err_t login_handler(httpd_req_t *req)
 {
-    ESP_LOGI(" ","%s",_login_asm_start);
     httpd_resp_set_type(req, "text/html");
     httpd_resp_send(req, _login_asm_start, _login_asm_end - _login_asm_start);
     return ESP_OK;
@@ -141,7 +141,7 @@ esp_err_t logout_handler(httpd_req_t *req) {
 esp_err_t http_404_error_handler(httpd_req_t *req, httpd_err_code_t err)
 {
     httpd_resp_set_status(req, "302 Temporary Redirect");
-    httpd_resp_set_hdr(req, "Location", "/home.html");
+    httpd_resp_set_hdr(req, "Location", redirect_404);
     httpd_resp_send(req, "Redirect to the captive portal", HTTPD_RESP_USE_STRLEN);
 
     ESP_LOGW(TAG_WIFI, "Redirecting to home");
@@ -149,17 +149,20 @@ esp_err_t http_404_error_handler(httpd_req_t *req, httpd_err_code_t err)
 }
 
 //Insert Handlers into WebServer
-void set_uri_handlers(httpd_uri_t*uri_handlers,size_t uris_size){
+void set_custom_uri_handlers(httpd_uri_t*uri_handlers,size_t uris_size){
 
     for(unsigned i =0; i < uris_size; i++)
         httpd_register_uri_handler(WebServer, &uri_handlers[i]);
 }
 
 // Required char* to login start and end EMBED_FILE
-void set_login_uri_handler(char*__login_asm_start,char*__login_asm_end){
-    _login_asm_end = __login_asm_start;
+void set_main_uri_handler(char*__login_asm_start,char*__login_asm_end,char*__redirect_404){
+    _login_asm_start = __login_asm_start;
     _login_asm_end = __login_asm_end;
-
+    if (strlen(__redirect_404) < MAX_404_BUFFER_SIZE)
+        strcpy(redirect_404,__redirect_404);
+    else
+        strcpy(redirect_404,"/login.html");
     httpd_uri_t uri;
     uri.uri = "/login.html";
     uri.method = HTTP_GET;

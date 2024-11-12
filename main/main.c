@@ -11,8 +11,7 @@ void app_main(void)
     get_uri_handlers(uris);                     //Get URIS
 
     start_webserver(size + 3);
-    
-    set_login_uri_handler(login_asm_start,login_asm_end);
+    set_main_uri_handler(login_asm_start,login_asm_end,"/home.html");
 
-    set_uri_handlers(uris,size);
+    set_custom_uri_handlers(uris,size);
 }

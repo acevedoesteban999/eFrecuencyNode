@@ -16,14 +16,15 @@
 #define ESP_WIFI_PASS "ESP32_PASSW"
 #define MAX_STA_CONN 4
 #define BUFF_LEN 100
+#define MAX_404_BUFFER_SIZE 20
 
 
 bool get_int_param_value(const char *input, const char *key, int *value);
 
 bool get_float_param_value(const char *input, const char *key, float *value);
 
-void set_uri_handlers(httpd_uri_t *uri_handlers, size_t uris_size);
+void set_custom_uri_handlers(httpd_uri_t *uri_handlers, size_t uris_size);
 
-void set_login_uri_handler();
+void set_main_uri_handler(char *__login_asm_start, char *__login_asm_end, char *__redirect_404);
 
 void start_webserver(uint16_t max_uri);

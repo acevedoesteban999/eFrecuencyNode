@@ -30,6 +30,8 @@ void init_Generators(){
     for(unsigned i=0;i<MAX_GENERATORS;i++){
         snprintf(g_name, sizeof(g_name),"g%u",i);
         GENERATORS[i] = read_generator_in_nvs(g_name);
+        if(GENERATORS[i].mode >= MAX_GENERATORS)
+            GENERATORS[i].mode = -1;
     }
 }
 
