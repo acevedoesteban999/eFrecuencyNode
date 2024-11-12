@@ -19,5 +19,5 @@ idf_component_register(
     
     REQUIRES  
         eGenerator
-        eWifi
+        eWeb
 )

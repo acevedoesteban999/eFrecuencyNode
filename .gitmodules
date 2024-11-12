@@ -1,0 +1,7 @@
+
+[submodule "components/eWeb"]
+	path = components/eWeb
+	url = https://github.com/acevedoesteban999/eWeb
+[submodule "components/eStore"]
+	path = components/eStore
+	url = https://github.com/acevedoesteban999/eStore

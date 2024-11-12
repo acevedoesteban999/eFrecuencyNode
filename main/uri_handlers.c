@@ -1,6 +1,6 @@
 
 #include "eGenerator.h"
-#include "eWifi.h"
+#include "eWeb.h"
 
 extern const char login_asm_start[] asm("_binary_login_html_start");
 extern const char login_asm_end[] asm("_binary_login_html_end");
